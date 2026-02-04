@@ -135,16 +135,16 @@ The seed script creates these test accounts:
 
 #### Admin
 - Email: `admin@adflow.com`
-- Password: `admin123`
+- Password: `admin12`
 
 #### Advertiser
 - Email: `advertiser@adflow.com`
-- Password: `advertiser123`
+- Password: `adv12`
 - Balance: $5,000
 
 #### Publisher
 - Email: `publisher@adflow.com`
-- Password: `publisher123`
+- Password: `pub12`
 - Balance: $1,000
 
 ## 📚 API Documentation

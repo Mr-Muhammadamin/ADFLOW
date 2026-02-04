@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 
-class NotificationType(str, str):
+class NotificationType(str):
     CAMPAIGN_APPROVED = "campaign_approved"
     CAMPAIGN_REJECTED = "campaign_rejected"
     AD_REQUEST = "ad_request"

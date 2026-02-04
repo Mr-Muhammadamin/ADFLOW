@@ -18,7 +18,6 @@ import Messages from './pages/Messages'
 import Notifications from './pages/Notifications'
 import Pricing from './pages/Pricing'
 import FAQ from './pages/FAQ'
-
 function App() {
   const { toggleDarkMode } = useDarkMode()
   const { isAuthenticated, user } = useAuthStore()

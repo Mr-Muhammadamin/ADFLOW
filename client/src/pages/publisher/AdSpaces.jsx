@@ -228,7 +228,7 @@ const AdSpaces = () => {
       <Modal
         isOpen={showCreateModal}
         onClose={() => { setShowCreateModal(false); resetForm(); }}
-        title={selectedAdSpace ? 'Edit Ad Space' : 'Create New Ad Space'}
+        title="Create New Ad Space"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

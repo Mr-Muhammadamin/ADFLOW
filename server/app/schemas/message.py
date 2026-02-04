@@ -5,7 +5,7 @@ from datetime import datetime
 
 class MessageCreate(BaseModel):
     receiver_id: int = Field(..., gt=0)
-    subject: Optional[str] = Field(None, max_length=200)
+    subject: Optional[str] = None
     content: str = Field(..., min_length=1)
 
 
@@ -16,7 +16,8 @@ class MessageResponse(BaseModel):
     subject: Optional[str] = None
     content: str
     is_read: bool
+    is_read_by_sender: bool
     created_at: datetime
-    
+
     class Config:
         from_attributes = True

@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../services/api'
 import { formatCurrency, formatNumber, formatDate } from '../../lib/utils'
-import { Plus, Pause, Play, MoreVertical, Search, Filter } from 'lucide-react'
+import { Plus, Pause, Play, Search } from 'lucide-react'
 import { Card, CardContent } from '../../components/ui/Card'
-import Modal from '../../components/ui/Modal'
 import Button from '../../components/ui/Button'
-import { CampaignStatus } from '../../services/api'
 
 const Campaigns = () => {
   const [campaigns, setCampaigns] = useState([])
