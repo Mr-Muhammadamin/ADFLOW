@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AdFlow{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show" id="sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/advertiser/dashboard">
+                            <i class="bi bi-house me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/advertiser/campaigns">
+                            <i class="bi bi-megaphone me-2"></i>Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/advertiser/ad-spaces">
+                            <i class="bi bi-collection-play me-2"></i>Find Audiences
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/advertiser/analytics">
+                            <i class="bi bi-graph-up me-2"></i>Analytics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wallet">
+                            <i class="bi bi-wallet2 me-2"></i>Wallet
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/messages">
+                            <i class="bi bi-envelope me-2"></i>Messages
+                            {% if unread_messages > 0 %}
+                            <span class="badge bg-danger ms-2">{{ unread_messages }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Advertiser Dashboard</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="/advertiser/campaigns/new" class="btn btn-sm btn-adflow">
+                        <i class="bi bi-plus-lg me-1"></i>New Campaign
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Total Campaigns</p>
+                                    <h3 class="fw-bold mb-0">{{ stats.total_campaigns }}</h3>
+                                </div>
+                                <div class="bg-primary bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-megaphone text-primary display-6"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Active Campaigns</p>
+                                    <h3 class="fw-bold mb-0">{{ stats.active_campaigns }}</h3>
+                                </div>
+                                <div class="bg-success bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-play-circle text-success display-6"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Total Impressions</p>
+                                    <h3 class="fw-bold mb-0">{{ stats.total_impressions|default(0)|format_number }}</h3>
+                                </div>
+                                <div class="bg-warning bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-eye text-warning display-6"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Total Clicks</p>
+                                    <h3 class="fw-bold mb-0">{{ stats.total_clicks|default(0)|format_number }}</h3>
+                                </div>
+                                <div class="bg-info bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-cursor text-info display-6"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet & Performance -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="wallet-balance">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Wallet Balance</h5>
+                            <i class="bi bi-wallet2 display-6"></i>
+                        </div>
+                        <h2 class="mb-3">${{ "%.2f"|format(wallet.balance) }}</h2>
+                        <div class="d-flex gap-2">
+                            <a href="/wallet/deposit" class="btn btn-light btn-sm">Deposit</a>
+                            <a href="/wallet" class="btn btn-outline-light btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="mb-0">Campaign Performance</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Campaign</th>
+                                            <th>Status</th>
+                                            <th>Impressions</th>
+                                            <th>Clicks</th>
+                                            <th>CTR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for campaign in recent_campaigns %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ campaign.name }}</strong>
+                                                <br><small class="text-muted">{{ campaign.ad_space_name }}</small>
+                                            </td>
+                                            <td>
+                                                {% if campaign.status == 'active' %}
+                                                <span class="badge bg-success">Active</span>
+                                                {% elif campaign.status == 'paused' %}
+                                                <span class="badge bg-warning">Paused</span>
+                                                {% else %}
+                                                <span class="badge bg-secondary">{{ campaign.status }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ campaign.impressions|default(0)|format_number }}</td>
+                                            <td>{{ campaign.clicks|default(0)|format_number }}</td>
+                                            <td>
+                                                {% if campaign.impressions and campaign.impressions > 0 %}
+                                                {{ "%.2f"|format((campaign.clicks / campaign.impressions) * 100) }}%
+                                                {% else %}
+                                                0%
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted py-4">
+                                                <i class="bi bi-inbox display-6 d-block mb-2"></i>
+                                                No campaigns yet. <a href="/advertiser/campaigns/new">Create your first campaign</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% for activity in recent_activities %}
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="bg-{{ activity.color }} bg-opacity-10 rounded p-2">
+                                    <i class="bi bi-{{ activity.icon }} text-{{ activity.color }}"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-0">{{ activity.message }}</p>
+                                <small class="text-muted">{{ activity.time }}</small>
+                            </div>
+                        </div>
+                        {% else %}
+                        <p class="text-muted text-center py-4">No recent activity</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}My Ad Spaces - AdFlow{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show" id="sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/publisher/dashboard">
+                            <i class="bi bi-house me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/publisher/ad-spaces">
+                            <i class="bi bi-collection-play me-2"></i>My Ad Spaces
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/publisher/ads">
+                            <i class="bi bi-megaphone me-2"></i>Active Ads
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wallet">
+                            <i class="bi bi-wallet2 me-2"></i>Wallet
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">My Ad Spaces</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button class="btn btn-sm btn-adflow" data-bs-toggle="modal" data-bs-target="#newAdSpaceModal">
+                        <i class="bi bi-plus-lg me-1"></i>New Ad Space
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ad Spaces Grid -->
+            <div class="row g-4">
+                {% for space in ad_spaces %}
+                <div class="col-md-6 col-xl-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="mb-1">{{ space.name }}</h5>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">{{ space.category }}</span>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="/publisher/ad-spaces/{{ space.id }}">Edit</a></li>
+                                        {% if space.is_active %}
+                                        <li><a class="dropdown-item" href="/publisher/ad-spaces/{{ space.id }}/pause">Pause</a></li>
+                                        {% else %}
+                                        <li><a class="dropdown-item" href="/publisher/ad-spaces/{{ space.id }}/activate">Activate</a></li>
+                                        {% endif %}
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="/publisher/ad-spaces/{{ space.id }}/delete">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <p class="text-muted small mb-3">{{ space.description }}</p>
+                            
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Dimensions</small>
+                                <strong>{{ space.dimensions }}</strong>
+                            </div>
+                            
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="bg-light rounded p-2 text-center">
+                                        <small class="text-muted d-block">Audience</small>
+                                        <strong>{{ space.audience_size|format_number }}</strong>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="bg-light rounded p-2 text-center">
+                                        <small class="text-muted d-block">CPM Rate</small>
+                                        <strong>${{ "%.2f"|format(space.cpm) }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                {% if space.is_active %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Active</span>
+                                {% else %}
+                                <span class="badge bg-secondary"><i class="bi bi-pause-circle me-1"></i>Paused</span>
+                                {% endif %}
+                                <div>
+                                    <small class="text-muted me-3"><i class="bi bi-eye me-1"></i>{{ space.impressions|default(0)|format_number }}</small>
+                                    <small class="text-success"><i class="bi bi-currency-dollar me-1"></i>${{ "%.2f"|format(space.earnings|default(0)) }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-collection-play display-1 text-muted"></i>
+                        <h3 class="mt-3">No Ad Spaces Yet</h3>
+                        <p class="text-muted">Create your first ad space to start monetizing your traffic</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newAdSpaceModal">
+                            <i class="bi bi-plus-lg me-2"></i>Create Ad Space
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- New Ad Space Modal -->
+<div class="modal fade" id="newAdSpaceModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Ad Space</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="/publisher/ad-spaces">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Ad Space Name *</label>
+                        <input type="text" class="form-control" name="name" placeholder="e.g., Homepage Banner" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category *</label>
+                        <select class="form-select" name="category" required>
+                            <option value="">Select category</option>
+                            <option value="technology">Technology</option>
+                            <option value="business">Business</option>
+                            <option value="lifestyle">Lifestyle</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="health">Health & Fitness</option>
+                            <option value="travel">Travel</option>
+                            <option value="finance">Finance</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="3" placeholder="Describe your ad space and audience"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Dimensions *</label>
+                            <select class="form-select" name="dimensions" required>
+                                <option value="">Select</option>
+                                <option value="728x90">728x90 (Leaderboard)</option>
+                                <option value="300x250">300x250 (Medium Rectangle)</option>
+                                <option value="160x600">160x600 (Wide Skyscraper)</option>
+                                <option value="320x50">320x50 (Mobile Banner)</option>
+                                <option value="300x600">300x600 (Half Page)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Monthly Visitors</label>
+                            <input type="number" class="form-control" name="audience_size" placeholder="e.g., 100000">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">CPM Rate ($) *</label>
+                        <input type="number" class="form-control" name="cpm" placeholder="e.g., 15.00" step="0.01" min="0" required>
+                        <div class="form-text">Your rate per 1,000 impressions</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-adflow">Create Ad Space</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

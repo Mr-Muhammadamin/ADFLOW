@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Campaigns - AdFlow{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show" id="sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/advertiser/dashboard">
+                            <i class="bi bi-house me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/advertiser/campaigns">
+                            <i class="bi bi-megaphone me-2"></i>Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/advertiser/ad-spaces">
+                            <i class="bi bi-collection-play me-2"></i>Find Audiences
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/advertiser/analytics">
+                            <i class="bi bi-graph-up me-2"></i>Analytics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wallet">
+                            <i class="bi bi-wallet2 me-2"></i>Wallet
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Campaigns</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="/advertiser/campaigns/new" class="btn btn-sm btn-adflow">
+                        <i class="bi bi-plus-lg me-1"></i>New Campaign
+                    </a>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="mb-4">
+                <div class="btn-group">
+                    <a href="?status=all" class="btn btn-sm btn-outline-secondary {% if status_filter == 'all' or not status_filter %}active{% endif %}">All</a>
+                    <a href="?status=active" class="btn btn-sm btn-outline-secondary {% if status_filter == 'active' %}active{% endif %}">Active</a>
+                    <a href="?status=paused" class="btn btn-sm btn-outline-secondary {% if status_filter == 'paused' %}active{% endif %}">Paused</a>
+                    <a href="?status=completed" class="btn btn-sm btn-outline-secondary {% if status_filter == 'completed' %}active{% endif %}">Completed</a>
+                    <a href="?status=pending" class="btn btn-sm btn-outline-secondary {% if status_filter == 'pending' %}active{% endif %}">Pending</a>
+                </div>
+            </div>
+
+            <!-- Campaigns Table -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="border-0">Campaign</th>
+                                    <th class="border-0">Ad Space</th>
+                                    <th class="border-0">Status</th>
+                                    <th class="border-0">Budget</th>
+                                    <th class="border-0">Impressions</th>
+                                    <th class="border-0">Clicks</th>
+                                    <th class="border-0">CTR</th>
+                                    <th class="border-0">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for campaign in campaigns %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if campaign.banner_url %}
+                                            <img src="{{ campaign.banner_url }}" alt="" class="rounded me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                                            {% else %}
+                                            <div class="bg-primary bg-opacity-10 rounded me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                                <i class="bi bi-image text-primary"></i>
+                                            </div>
+                                            {% endif %}
+                                            <div>
+                                                <strong>{{ campaign.name }}</strong>
+                                                <br><small class="text-muted">{{ campaign.created_at|truncate(10, true, '') }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{ campaign.ad_space_name }}
+                                        <br><small class="text-muted">{{ campaign.ad_space_category }}</small>
+                                    </td>
+                                    <td>
+                                        {% if campaign.status == 'active' %}
+                                        <span class="badge bg-success">Active</span>
+                                        {% elif campaign.status == 'paused' %}
+                                        <span class="badge bg-warning">Paused</span>
+                                        {% elif campaign.status == 'pending' %}
+                                        <span class="badge bg-info">Pending</span>
+                                        {% elif campaign.status == 'completed' %}
+                                        <span class="badge bg-secondary">Completed</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">{{ campaign.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        ${{ "%.2f"|format(campaign.budget) }}
+                                        <br><small class="text-muted">${{ "%.2f"|format(campaign.spent) }} spent</small>
+                                    </td>
+                                    <td>{{ campaign.impressions|default(0)|format_number }}</td>
+                                    <td>{{ campaign.clicks|default(0)|format_number }}</td>
+                                    <td>
+                                        {% if campaign.impressions and campaign.impressions > 0 %}
+                                        {{ "%.2f"|format((campaign.clicks / campaign.impressions) * 100) }}%
+                                        {% else %}
+                                        0%
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="/advertiser/campaigns/{{ campaign.id }}">View Details</a></li>
+                                                <li><a class="dropdown-item" href="/advertiser/campaigns/{{ campaign.id }}/edit">Edit</a></li>
+                                                {% if campaign.status == 'active' %}
+                                                <li><a class="dropdown-item" href="/advertiser/campaigns/{{ campaign.id }}/pause">Pause</a></li>
+                                                {% elif campaign.status == 'paused' %}
+                                                <li><a class="dropdown-item" href="/advertiser/campaigns/{{ campaign.id }}/resume">Resume</a></li>
+                                                {% endif %}
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="/advertiser/campaigns/{{ campaign.id }}/delete">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="8" class="text-center py-5">
+                                        <i class="bi bi-megaphone display-4 text-muted"></i>
+                                        <h4 class="mt-3">No Campaigns Yet</h4>
+                                        <p class="text-muted">Create your first campaign to start advertising</p>
+                                        <a href="/advertiser/campaigns/new" class="btn btn-primary">Create Campaign</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

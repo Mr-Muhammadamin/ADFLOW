@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import HTTPBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import verify_password, get_password_hash, create_access_token, create_refresh_token
@@ -134,10 +134,9 @@ def refresh_token(refresh_data: dict, db: Session = Depends(get_db)):
 
 @router.get("/users", response_model=list[UserResponse])
 def list_users(
-    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    users = db.query(User).filter(User.id != current_user.id).all()
+    users = db.query(User).all()
     return users
 
 
