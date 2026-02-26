@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+
+{% block title %}AdFlow - Connect with Your Perfect Audience{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold mb-4">Connect with Your Perfect Audience</h1>
+                <p class="lead mb-4">AdFlow bridges the gap between advertisers seeking targeted audiences and publishers monetizing their traffic. Discover, connect, and grow.</p>
+                <div class="d-flex gap-3">
+                    <a href="/register?role=advertiser" class="btn btn-light btn-lg text-primary fw-bold">
+                        <i class="bi bi-megaphone me-2"></i>I'm an Advertiser
+                    </a>
+                    <a href="/register?role=publisher" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-people me-2"></i>I'm a Publisher
+                    </a>
+                </div>
+                <div class="mt-5">
+                    <p class="small text-white-50 mb-2">Trusted by 500+ businesses</p>
+                    <div class="d-flex gap-3">
+                        <span class="badge bg-white bg-opacity-25 py-2 px-3">Startups</span>
+                        <span class="badge bg-white bg-opacity-25 py-2 px-3">Enterprise</span>
+                        <span class="badge bg-white bg-opacity-25 py-2 px-3">Agencies</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="position-relative">
+                    <div class="card border-0 shadow-lg" style="border-radius: 20px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <span class="badge bg-primary">Featured Campaign</span>
+                                <span class="text-success"><i class="bi bi-graph-up"></i> +24% CTR</span>
+                            </div>
+                            <h4 class="fw-bold">TechStartup Launch Campaign</h4>
+                            <p class="text-muted">Targeting tech enthusiasts aged 25-45 with high purchase intent</p>
+                            <div class="row mt-4">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold text-primary">2.5M</h5>
+                                        <small class="text-muted">Impressions</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold text-success">45K</h5>
+                                        <small class="text-muted">Clicks</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold text-warning">1.8%</h5>
+                                        <small class="text-muted">CTR</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="bi bi-collection-play display-4 text-primary mb-3"></i>
+                    <h3 class="fw-bold">10,000+</h3>
+                    <p class="text-muted mb-0">Active Ad Spaces</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="bi bi-people display-4 text-success mb-3"></i>
+                    <h3 class="fw-bold">5M+</h3>
+                    <p class="text-muted mb-0">Monthly Reach</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="bi bi-briefcase display-4 text-warning mb-3"></i>
+                    <h3 class="fw-bold">2,500+</h3>
+                    <p class="text-muted mb-0">Active Campaigns</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <i class="bi bi-currency-dollar display-4 text-info mb-3"></i>
+                    <h3 class="fw-bold">$2M+</h3>
+                    <p class="text-muted mb-0">Ad Spend Processed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">How AdFlow Works</h2>
+            <p class="text-muted">Simple, transparent, and effective</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card card h-100 p-4 text-center">
+                    <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                        <i class="bi bi-search display-5 text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Discover</h4>
+                    <p class="text-muted mb-0">Browse thousands of verified ad spaces. Filter by audience demographics, niche, location, and more.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card card h-100 p-4 text-center">
+                    <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                        <i class="bi bi-hand-thumbs-up display-5 text-success"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Connect</h4>
+                    <p class="text-muted mb-0">Reach out to publishers directly. Negotiate terms, discuss placements, and build partnerships.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card card h-100 p-4 text-center">
+                    <div class="icon-wrapper bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                        <i class="bi bi-rocket-takeoff display-5 text-warning"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Launch</h4>
+                    <p class="text-muted mb-0">Run your campaigns with real-time analytics. Optimize performance and maximize ROI.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- For Advertisers -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">For Advertisers</h2>
+                <p class="text-muted mb-4">Find the perfect audience for your brand across thousands of verified channels.</p>
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-success"></i>
+                        </div>
+                        <span>Access to 10,000+ premium ad spaces</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-success"></i>
+                        </div>
+                        <span>Advanced audience targeting & segmentation</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-success"></i>
+                        </div>
+                        <span>Real-time campaign analytics</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-success"></i>
+                        </div>
+                        <span>Flexible budgeting & pricing options</span>
+                    </div>
+                </div>
+                <a href="/register?role=advertiser" class="btn btn-adflow btn-lg mt-4">
+                    Start Advertising <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Campaign Builder</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Campaign Name</label>
+                            <input type="text" class="form-control" placeholder="Summer Sale 2024">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Target Audience</label>
+                            <select class="form-select">
+                                <option>Tech Enthusiasts</option>
+                                <option>Business Professionals</option>
+                                <option>Health & Fitness</option>
+                                <option>Travel Lovers</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Budget</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" placeholder="1000">
+                            </div>
+                        </div>
+                        <button class="btn btn-adflow w-100">Create Campaign</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- For Publishers -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <h2 class="fw-bold mb-4">For Publishers</h2>
+                <p class="text-muted mb-4">Monetize your audience with high-quality advertisements from trusted brands.</p>
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-primary"></i>
+                        </div>
+                        <span>Earn competitive rates per impression/click</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-primary"></i>
+                        </div>
+                        <span>Easy ad space creation & management</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-primary"></i>
+                        </div>
+                        <span>Detailed performance analytics</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 rounded p-2 me-3">
+                            <i class="bi bi-check-lg text-primary"></i>
+                        </div>
+                        <span>Fast & secure payouts</span>
+                    </div>
+                </div>
+                <a href="/register?role=publisher" class="btn btn-adflow btn-lg mt-4">
+                    Start Monetizing <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0 order-lg-1">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Publisher Dashboard</h5>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="bg-success bg-opacity-10 rounded p-3 text-center">
+                                    <h3 class="fw-bold text-success mb-1">$1,245</h3>
+                                    <small class="text-muted">This Month</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-primary bg-opacity-10 rounded p-3 text-center">
+                                    <h3 class="fw-bold text-primary mb-1">15</h3>
+                                    <small class="text-muted">Active Ads</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-warning bg-opacity-10 rounded p-3 text-center">
+                                    <h3 class="fw-bold text-warning mb-1">125K</h3>
+                                    <small class="text-muted">Impressions</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-info bg-opacity-10 rounded p-3 text-center">
+                                    <h3 class="fw-bold text-info mb-1">3.2%</h3>
+                                    <small class="text-muted">Engagement</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">What Our Users Say</h2>
+            <p class="text-muted">Join thousands of satisfied advertisers and publishers</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex text-warning mb-3">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="mb-4">"AdFlow transformed how we approach advertising. We found the perfect niche channels that actually convert."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                <span class="text-white fw-bold">JD</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">John Doe</h6>
+                                <small class="text-muted">CEO, TechStartup</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex text-warning mb-3">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="mb-4">"As a publisher, AdFlow helped me monetize my blog effectively. The payouts are fast and the interface is intuitive."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                <span class="text-white fw-bold">SM</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Sarah Miller</h6>
+                                <small class="text-muted">Blog Owner</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex text-warning mb-3">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="mb-4">"The analytics dashboard is fantastic. We can track performance in real-time and optimize our campaigns on the fly."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                <span class="text-white fw-bold">MK</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Mike Kim</h6>
+                                <small class="text-muted">Marketing Director</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="card bg-primary border-0">
+            <div class="card-body py-5 text-center">
+                <h2 class="fw-bold text-white mb-3">Ready to Get Started?</h2>
+                <p class="text-white-50 mb-4">Join thousands of advertisers and publishers growing their business with AdFlow</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/register" class="btn btn-light btn-lg text-primary fw-bold">Create Free Account</a>
+                    <a href="/features" class="btn btn-outline-light btn-lg">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

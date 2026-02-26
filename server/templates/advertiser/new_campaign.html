@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}New Campaign - AdFlow{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <h2 class="fw-bold mb-4">Create New Campaign</h2>
+                    
+                    <form method="POST" action="/advertiser/campaigns" enctype="multipart/form-data">
+                        <!-- Campaign Details -->
+                        <h5 class="fw-bold mb-3">Campaign Details</h5>
+                        <div class="mb-4">
+                            <div class="mb-3">
+                                <label class="form-label">Campaign Name *</label>
+                                <input type="text" class="form-control" name="name" placeholder="e.g., Summer Sale 2024" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ad Space *</label>
+                                <select class="form-select" name="ad_space_id" required>
+                                    <option value="">Select an ad space</option>
+                                    {% for space in ad_spaces %}
+                                    <option value="{{ space.id }}">{{ space.name }} - {{ space.category }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">
+                                    <a href="/advertiser/ad-spaces" target="_blank">Browse more ad spaces</a>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Target URL *</label>
+                                <input type="url" class="form-control" name="target_url" placeholder="https://yourwebsite.com/landing-page" required>
+                            </div>
+                        </div>
+
+                        <!-- Ad Creative -->
+                        <h5 class="fw-bold mb-3">Ad Creative</h5>
+                        <div class="mb-4">
+                            <div class="mb-3">
+                                <label class="form-label">Headline</label>
+                                <input type="text" class="form-control" name="headline" placeholder="Catchy headline for your ad" maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" name="description" rows="3" placeholder="Describe your product or service" maxlength="300"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Banner Image</label>
+                                <input type="file" class="form-control" name="banner" accept="image/*">
+                                <div class="form-text">Recommended size: 728x90, 300x250, or 160x600 pixels</div>
+                            </div>
+                        </div>
+
+                        <!-- Budget & Scheduling -->
+                        <h5 class="fw-bold mb-3">Budget & Scheduling</h5>
+                        <div class="mb-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Total Budget *</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" name="budget" placeholder="100" min="10" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Daily Budget (Optional)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" name="daily_budget" placeholder="50" min="5">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Start Date *</label>
+                                    <input type="date" class="form-control" name="start_date" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">End Date (Optional)</label>
+                                    <input type="date" class="form-control" name="end_date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Targeting -->
+                        <h5 class="fw-bold mb-3">Targeting (Optional)</h5>
+                        <div class="mb-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Geographic Targeting</label>
+                                    <select class="form-select" name="geo_targeting">
+                                        <option value="">Worldwide</option>
+                                        <option value="us">United States</option>
+                                        <option value="uk">United Kingdom</option>
+                                        <option value="eu">Europe</option>
+                                        <option value="asia">Asia</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Device Type</label>
+                                    <select class="form-select" name="device_type">
+                                        <option value="">All Devices</option>
+                                        <option value="desktop">Desktop Only</option>
+                                        <option value="mobile">Mobile Only</option>
+                                        <option value="tablet">Tablet Only</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview -->
+                        <h5 class="fw-bold mb-3">Preview</h5>
+                        <div class="mb-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary bg-opacity-10 rounded p-3 me-3" style="width: 100px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-image text-primary display-6"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1" id="preview-headline">Your Headline Here</h6>
+                                            <p class="text-muted small mb-0" id="preview-description">Your description will appear here...</p>
+                                            <small class="text-primary" id="preview-url">yourwebsite.com</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-adflow btn-lg flex-grow-1">Create Campaign</button>
+                            <a href="/advertiser/campaigns" class="btn btn-outline-secondary btn-lg">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Update preview as user types
+    document.querySelector('input[name="headline"]').addEventListener('input', function(e) {
+        document.getElementById('preview-headline').textContent = e.target.value || 'Your Headline Here';
+    });
+    document.querySelector('input[name="description"]').addEventListener('input', function(e) {
+        document.getElementById('preview-description').textContent = e.target.value || 'Your description will appear here...';
+    });
+    document.querySelector('input[name="target_url"]').addEventListener('input', function(e) {
+        try {
+            const url = new URL(e.target.value);
+            document.getElementById('preview-url').textContent = url.hostname;
+        } catch {
+            document.getElementById('preview-url').textContent = e.target.value || 'yourwebsite.com';
+        }
+    });
+
+    // Set default start date to today
+    document.querySelector('input[name="start_date"]').valueAsDate = new Date();
+</script>
+{% endblock %}
+{% endblock %}

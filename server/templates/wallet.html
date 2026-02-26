@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Wallet - AdFlow{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Wallet Balance -->
+        <div class="col-lg-4 mb-4">
+            <div class="wallet-balance">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Your Balance</h5>
+                    <i class="bi bi-wallet2 display-6"></i>
+                </div>
+                <h2 class="mb-3">${{ "%.2f"|format(wallet.balance) }}</h2>
+                <div class="row g-2">
+                    <div class="col-6">
+                        {% if current_user.role == 'advertiser' %}
+                        <a href="/wallet/deposit" class="btn btn-light btn-sm w-100">Deposit Funds</a>
+                        {% else %}
+                        <a href="/wallet/withdraw" class="btn btn-light btn-sm w-100">Withdraw</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-6">
+                        <a href="/wallet/transactions" class="btn btn-outline-light btn-sm w-100">History</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Account Summary</h6>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Total Spent</span>
+                        <span class="fw-bold">${{ "%.2f"|format(wallet.total_spent) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Total Earned</span>
+                        <span class="fw-bold text-success">${{ "%.2f"|format(wallet.total_earned) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Pending</span>
+                        <span class="fw-bold">${{ "%.2f"|format(wallet.pending) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Transactions</h5>
+                    <a href="/wallet/transactions" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="border-0">Date</th>
+                                    <th class="border-0">Description</th>
+                                    <th class="border-0">Type</th>
+                                    <th class="border-0">Amount</th>
+                                    <th class="border-0">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <td>{{ transaction.date }}</td>
+                                    <td>
+                                        <strong>{{ transaction.description }}</strong>
+                                        {% if transaction.campaign_name %}
+                                        <br><small class="text-muted">{{ transaction.campaign_name }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.type == 'deposit' %}
+                                        <span class="badge bg-success bg-opacity-10 text-success">Deposit</span>
+                                        {% elif transaction.type == 'campaign' %}
+                                        <span class="badge bg-primary bg-opacity-10 text-primary">Campaign</span>
+                                        {% elif transaction.type == 'earning' %}
+                                        <span class="badge bg-warning bg-opacity-10 text-warning">Earning</span>
+                                        {% elif transaction.type == 'withdrawal' %}
+                                        <span class="badge bg-info bg-opacity-10 text-info">Withdrawal</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">{{ transaction.type }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="{% if transaction.amount > 0 %}text-success{% else %}text-danger{% endif %}">
+                                        {% if transaction.amount > 0 %}+{% endif %}${{ "%.2f"|format(transaction.amount) }}
+                                    </td>
+                                    <td>
+                                        {% if transaction.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                        {% elif transaction.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                        {% elif transaction.status == 'failed' %}
+                                        <span class="badge bg-danger">Failed</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">{{ transaction.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        No transactions yet
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Payment Methods</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between p-3 border rounded mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary bg-opacity-10 rounded p-2 me-3">
+                                <i class="bi bi-credit-card text-primary display-6"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Visa ending in 4242</h6>
+                                <small class="text-muted">Expires 12/25</small>
+                            </div>
+                        </div>
+                        <span class="badge bg-success">Default</span>
+                    </div>
+                    <button class="btn btn-outline-primary">
+                        <i class="bi bi-plus-lg me-2"></i>Add Payment Method
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

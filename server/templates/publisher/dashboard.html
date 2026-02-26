@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Publisher Dashboard - AdFlow{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show" id="sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/publisher/dashboard">
+                            <i class="bi bi-house me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/publisher/ad-spaces">
+                            <i class="bi bi-collection-play me-2"></i>My Ad Spaces
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/publisher/ads">
+                            <i class="bi bi-megaphone me-2"></i>Active Ads
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/publisher/analytics">
+                            <i class="bi bi-graph-up me-2"></i>Analytics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/publisher/earnings">
+                            <i class="bi bi-currency-dollar me-2"></i>Earnings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wallet">
+                            <i class="bi bi-wallet2 me-2"></i>Wallet
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/messages">
+                            <i class="bi bi-envelope me-2"></i>Messages
+                            {% if unread_messages > 0 %}
+                            <span class="badge bg-danger ms-2">{{ unread_messages }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Publisher Dashboard</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="/publisher/ad-spaces/new" class="btn btn-sm btn-adflow">
+                        <i class="bi bi-plus-lg me-1"></i>New Ad Space
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Total Earnings</p>
+                                    <h3 class="fw-bold mb-0 text-success">${{ "%.2f"|format(stats.total_earnings) }}</h3>
+                                </div>
+                                <div class="bg-success bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-currency-dollar text-success display-6"></i>
+                                </div>
+                            </div>
+                            <small class="text-success"><i class="bi bi-arrow-up"></i> +12% from last month</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Ad Spaces</p>
+                                    <h3 class="fw-bold mb-0">{{ stats.total_ad_spaces }}</h3>
+                                </div>
+                                <div class="bg-primary bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-collection-play text-primary display-6"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted">{{ stats.active_ad_spaces }} active</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Total Impressions</p>
+                                    <h3 class="fw-bold mb-0">{{ stats.total_impressions|default(0)|format_number }}</h3>
+                                </div>
+                                <div class="bg-warning bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-eye text-warning display-6"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted">This month</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted mb-1">Avg. CTR</p>
+                                    <h3 class="fw-bold mb-0">{{ "%.2f"|format(stats.avg_ctr) }}%</h3>
+                                </div>
+                                <div class="bg-info bg-opacity-10 rounded p-3">
+                                    <i class="bi bi-cursor text-info display-6"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted">Industry avg: 1.5%</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet & Active Ads -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="wallet-balance">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Available Balance</h5>
+                            <i class="bi bi-wallet2 display-6"></i>
+                        </div>
+                        <h2 class="mb-3">${{ "%.2f"|format(wallet.balance) }}</h2>
+                        <div class="d-flex gap-2">
+                            <a href="/wallet/withdraw" class="btn btn-light btn-sm">Withdraw</a>
+                            <a href="/wallet" class="btn btn-outline-light btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="mb-0">Active Ads on Your Spaces</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad Space</th>
+                                            <th>Advertiser</th>
+                                            <th>Impressions</th>
+                                            <th>Clicks</th>
+                                            <th>Earnings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for ad in active_ads %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ ad.ad_space_name }}</strong>
+                                                <br><small class="text-muted">{{ ad.ad_space_category }}</small>
+                                            </td>
+                                            <td>{{ ad.advertiser_name }}</td>
+                                            <td>{{ ad.impressions|default(0)|format_number }}</td>
+                                            <td>{{ ad.clicks|default(0)|format_number }}</td>
+                                            <td class="text-success">${{ "%.2f"|format(ad.earnings) }}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted py-4">
+                                                <i class="bi bi-inbox display-6 d-block mb-2"></i>
+                                                No active ads yet. <a href="/publisher/ad-spaces/new">Create an ad space</a> to start earning.
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad Spaces Overview -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Your Ad Spaces</h5>
+                        <a href="/publisher/ad-spaces" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% for space in ad_spaces %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="mb-0">{{ space.name }}</h6>
+                                        {% if space.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">Inactive</span>
+                                        {% endif %}
+                                    </div>
+                                    <p class="text-muted small mb-2">{{ space.category }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted"><i class="bi bi-eye me-1"></i>{{ space.impressions|default(0)|format_number }}</small>
+                                        <small class="text-muted"><i class="bi bi-cursor me-1"></i>{{ space.clicks|default(0)|format_number }}</small>
+                                        <small class="text-success"><i class="bi bi-currency-dollar me-1"></i>${{ "%.2f"|format(space.earnings) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-12 text-center text-muted py-4">
+                            <i class="bi bi-collection-play display-6 d-block mb-2"></i>
+                            No ad spaces yet. Create your first ad space to start monetizing!
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

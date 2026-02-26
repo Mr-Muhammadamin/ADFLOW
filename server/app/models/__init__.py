@@ -6,6 +6,9 @@ from app.models.message import Message
 from app.models.notification import Notification
 from app.models.review import Review
 
+# Import Base from database for migrations
+from app.core.database import Base
+
 __all__ = [
     "User",
     "Campaign",
@@ -18,4 +21,5 @@ __all__ = [
     "Message",
     "Notification",
     "Review",
+    "Base",
 ]
